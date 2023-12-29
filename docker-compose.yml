@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    command: bash .docker/entrypoint.sh
+    container_name: frota-api
+    ports:
+      - "3001:3001"
+    volumes:
+      - .:/home/node/app
+    tty: true
+    restart: always
+
