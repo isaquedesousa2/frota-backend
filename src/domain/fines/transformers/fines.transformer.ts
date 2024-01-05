@@ -9,6 +9,8 @@ export function mapTransformerFines(data: { plate: string; trip: TripsSismaEntit
             result.push({
                 plate: dt.plate,
                 number: dt.trip.IDEQUI,
+                reindeer: dt.trip.equipament.RENAVAM2,
+                class: dt.trip.equipament.class.DESCRICAO,
                 fines: [],
             });
         }
@@ -25,6 +27,7 @@ export function mapTransformerFines(data: { plate: string; trip: TripsSismaEntit
                     description: dt.fine.descricao,
                     gravity: dt.fine.gravidade,
                     situation: dt.fine.situacao,
+                    route: dt.trip.route.DESCRRESUM,
                     value: dt.fine.valor,
                     paid: dt.fine.pago,
                 });

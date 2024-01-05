@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { mapTransformerUser } from './transformers/user.transformer';
 import { IUserReq } from './interfaces/user.interface';
+import cryptoRandomString from 'crypto-random-string';
 
 @Injectable()
 export class UsersService {
@@ -22,8 +23,8 @@ export class UsersService {
         //     throw new BadRequestException('User already registered.');
         // }
 
-        const salt = await bcrypt.genSalt();
-        user.password = await bcrypt.hash(user.password, salt);
+        
+        user.password = cryptoRandomString({ length: 12 });
 
         // const response: IUserReq = await this.userRepository.save(user);
         const response: IUserReq = {
@@ -37,6 +38,10 @@ export class UsersService {
         };
 
         return mapTransformerUser(response);
+    }
+
+    async resettingFirstAcessPassword({}) {
+        const salt = await bcrypt.genSalt();
     }
 
     async findOneById(id: number) {

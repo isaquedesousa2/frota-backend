@@ -1,5 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
-import { TripsSismaEntity } from './trips-sisma.entity';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity('TRANSBR.FUNCIONARIO')
 export class EmployeeSismaEntity {
@@ -8,8 +7,4 @@ export class EmployeeSismaEntity {
 
     @Column()
     NOMEFUNC: string;
-
-    @OneToOne(() => TripsSismaEntity, (tripsSisma) => tripsSisma.equipament)
-    @JoinColumn({ name: 'CODIFUNC', referencedColumnName: 'CODIFUNC' })
-    trips: TripsSismaEntity;
 }

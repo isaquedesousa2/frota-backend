@@ -16,9 +16,13 @@ export class AuthService {
 
             const user = await this.usersService.findOneByUsername(username);
 
+            if (!user) {
+                throw new UnauthorizedException('Username or password is invalid.');
+            }
+
             const isAuthenticated = await bcrypt.compare(password, user.password);
 
-            if (!user || !isAuthenticated) {
+            if (!isAuthenticated) {
                 throw new UnauthorizedException('Username or password is invalid.');
             }
 
@@ -32,10 +36,16 @@ export class AuthService {
 
     async validateToken(token: string) {
         try {
-            return this.jwtService.verify(token);
+            this.jwtService.verify(token);
         } catch (e) {
             throw new BadRequestException(e.message);
         }
+    }
+
+    async refreshUserData(token: string) {
+        const { id } = await this.jwtService.decode(token);
+
+        return await this.usersService.findOneById(id);
     }
 
     private async createToken(user: IUserReq) {

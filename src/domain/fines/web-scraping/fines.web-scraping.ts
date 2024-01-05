@@ -1,9 +1,9 @@
 import puppeteer from 'puppeteer';
-import { IFineRes, IFineScrapingReq } from '../interfaces';
+import { IFineScrapingReq } from '../interfaces';
 import { mapTransfomerWebScrapingRes } from '../transformers';
 
 export class FinesWebScraping {
-    async execute(): Promise<IFineRes[]> {
+    async execute(): Promise<IFineScrapingReq[]> {
         const browser = await puppeteer.launch({
             executablePath: '/usr/bin/google-chrome-stable',
             headless: 'new',
@@ -21,18 +21,18 @@ export class FinesWebScraping {
 
         await new Promise((resolve) => setTimeout(resolve, 2000));
 
-        // while (true) {
-        //     const xpath = '/html/body/div/div[3]/div[3]/div[3]/div/button';
-        //     const button: any = await page.$x(xpath);
+        while (true) {
+            const xpath = '/html/body/div/div[3]/div[3]/div[3]/div/button';
+            const button: any = await page.$x(xpath);
 
-        //     if (button.length === 0) {
-        //         console.error('Botão não encontrado com o XPath fornecido.');
-        //         break;
-        //     }
+            if (button.length === 0) {
+                console.error('Botão não encontrado com o XPath fornecido.');
+                break;
+            }
 
-        //     await button[0].click();
-        //     await new Promise((resolve) => setTimeout(resolve, 2000));
-        // }
+            await button[0].click();
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+        }
 
         const xpath = '//*[@id="app"]/div[3]/div[3]/div[1]/div';
         const elements = await page.$x(xpath);
