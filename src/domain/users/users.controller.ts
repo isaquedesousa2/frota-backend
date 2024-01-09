@@ -4,8 +4,8 @@ import { UserCreateDTO } from './dtos/user-create.dto';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { UserResettingPasswordDTO } from './dtos';
 
-// @UseGuards(JwtAuthGuard)
-@Controller('users')
+@UseGuards(JwtAuthGuard)
+@Controller('/api/v1/users')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
