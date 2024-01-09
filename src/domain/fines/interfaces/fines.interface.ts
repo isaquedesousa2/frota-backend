@@ -1,4 +1,4 @@
-export interface IFineScrapingReq {
+export interface IFineScrapingRes {
     descricao: string;
     placa: string;
     situacao: string;
@@ -10,9 +10,16 @@ export interface IFineScrapingReq {
     pago: boolean;
 }
 
+export interface IFineScrapingReq {
+    link: string;
+    result: string[];
+}
+
 export interface IFineRes {
     plate: string;
     number: number;
+    reindeer: number;
+    class: string;
     fines: IFine[];
 }
 
@@ -26,6 +33,7 @@ export interface IFine {
     gravity: string;
     local: string;
     country: string;
+    route: string;
     value: number;
     paid: boolean;
 }

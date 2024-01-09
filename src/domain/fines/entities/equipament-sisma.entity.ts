@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
-import { TripsSismaEntity } from './trips-sisma.entity';
+import { ClassEquipamentSismaEntity } from './class-equipament-sisma.entity';
 
 @Entity('TRANSBR.EQUIPAMENTO')
 export class EquipamentSismaEntity {
@@ -9,7 +9,13 @@ export class EquipamentSismaEntity {
     @Column()
     PLACAATUAL: string;
 
-    @OneToOne(() => TripsSismaEntity, (tripsSisma) => tripsSisma.equipament)
-    @JoinColumn({ name: 'IDEQUI', referencedColumnName: 'IDEQUI' })
-    trips: TripsSismaEntity;
+    @Column()
+    RENAVAM2: number;
+
+    @Column()
+    IDCLOP: number;
+
+    @OneToOne(() => ClassEquipamentSismaEntity, (param) => param.IDCLOP, { eager: true })
+    @JoinColumn({ name: 'IDCLOP', referencedColumnName: 'IDCLOP' })
+    class: ClassEquipamentSismaEntity;
 }

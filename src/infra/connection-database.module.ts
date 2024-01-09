@@ -5,6 +5,10 @@ import { EquipamentSismaEntity } from '../domain/fines/entities/equipament-sisma
 import { TripsSismaEntity } from '../domain/fines/entities/trips-sisma.entity';
 import { EmployeeSismaEntity } from '../domain/fines/entities/employee-sisma.entity';
 import 'dotenv/config';
+import { RoutesSismaEntity } from '../domain/fines/entities/routes-sisma.entity';
+import { ClassEquipamentSismaEntity } from '../domain/fines/entities/class-equipament-sisma.entity';
+import { UsersPermissionsEntity } from '../domain/users/entities/users-permissions.entity';
+import { PermissionEntity } from '../domain/users/entities/permission.entity';
 
 @Global()
 @Module({
@@ -17,7 +21,7 @@ import 'dotenv/config';
             password: process.env.WINTHOR_PASSWORD,
             serviceName: process.env.WINTHOR_SERVICE,
             schema: process.env.WINTHOR_SCHEMA,
-            entities: [EquipamentSismaEntity, TripsSismaEntity, EmployeeSismaEntity],
+            entities: [EquipamentSismaEntity, TripsSismaEntity, EmployeeSismaEntity, RoutesSismaEntity, ClassEquipamentSismaEntity],
             synchronize: false,
         }),
         TypeOrmModule.forRoot({
@@ -29,8 +33,8 @@ import 'dotenv/config';
             password: process.env.SGM_PASSWORD,
             database: process.env.SGM_DATABASE,
             schema: process.env.SGM_SCHEMA,
-            entities: [UserEntity],
-            synchronize: true,
+            entities: [UserEntity, UsersPermissionsEntity, PermissionEntity],
+            synchronize: false,
         }),
     ],
 })

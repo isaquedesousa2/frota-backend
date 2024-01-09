@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+// user.entity.ts
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { UsersPermissionsEntity } from './users-permissions.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -17,9 +19,15 @@ export class UserEntity {
     @Column()
     email: string;
 
+    @Column()
+    firstAccess: Date;
+
     @UpdateDateColumn()
     updatedAt: Date;
 
     @CreateDateColumn()
     createdAt: Date;
+
+    @OneToMany(() => UsersPermissionsEntity, (permission) => permission.user, { eager: true })
+    permissions: UsersPermissionsEntity[];
 }

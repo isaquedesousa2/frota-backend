@@ -1,1 +1,1 @@
-export { IUserReq, IUserRes } from './user.interface';
+export { IUserReq, IUserRes, IUserResettingPassword } from './user.interface';

@@ -1,12 +1,14 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { FinesService } from './fines.service';
+import { JwtAuthGuard } from '../../guards';
 
-@Controller('multas')
+@UseGuards(JwtAuthGuard)
+@Controller('/api/v1/multas')
 export class FinesController {
     constructor(private readonly service: FinesService) {}
 
     @Get()
-    async getFines() {
-        return await this.service.getFines();
+    getFines() {
+        return this.service.getFines();
     }
 }

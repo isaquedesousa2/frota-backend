@@ -1,7 +1,7 @@
 import { TripsSismaEntity } from '../entities/trips-sisma.entity';
-import { IFineRes, IFineScrapingReq } from '../interfaces';
+import { IFineRes, IFineScrapingRes } from '../interfaces';
 
-export function mapTransformerFines(data: { plate: string; trip: TripsSismaEntity; fine: IFineScrapingReq }[]): IFineRes[] {
+export function mapTransformerFines(data: { plate: string; trip: TripsSismaEntity; fine: IFineScrapingRes }[]): IFineRes[] {
     const result: IFineRes[] = [];
 
     for (const dt of data) {
@@ -9,6 +9,8 @@ export function mapTransformerFines(data: { plate: string; trip: TripsSismaEntit
             result.push({
                 plate: dt.plate,
                 number: dt.trip.IDEQUI,
+                reindeer: dt.trip.equipament.RENAVAM2,
+                class: dt.trip.equipament.class.DESCRICAO,
                 fines: [],
             });
         }
@@ -25,6 +27,7 @@ export function mapTransformerFines(data: { plate: string; trip: TripsSismaEntit
                     description: dt.fine.descricao,
                     gravity: dt.fine.gravidade,
                     situation: dt.fine.situacao,
+                    route: dt.trip.route.DESCRRESUM,
                     value: dt.fine.valor,
                     paid: dt.fine.pago,
                 });
