@@ -1,4 +1,4 @@
-export interface IFineScrapingReq {
+export interface IFineScrapingRes {
     descricao: string;
     placa: string;
     situacao: string;
@@ -8,6 +8,11 @@ export interface IFineScrapingReq {
     municipio: string;
     valor: number;
     pago: boolean;
+}
+
+export interface IFineScrapingReq {
+    link: string;
+    result: string[];
 }
 
 export interface IFineRes {

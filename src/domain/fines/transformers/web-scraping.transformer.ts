@@ -1,6 +1,6 @@
-import { IFineScrapingReq } from '../interfaces';
+import { IFineScrapingRes } from '../interfaces';
 
-export function mapTransfomerWebScrapingRes(scrapings: string[]): IFineScrapingReq {
+export function mapTransfomerWebScrapingRes(scrapings: string[]): IFineScrapingRes {
     const descricao: string = scrapings[4];
     const placa: string = scrapings[6];
     const situacao: string = String(scrapings[8]).trim();
@@ -12,8 +12,8 @@ export function mapTransfomerWebScrapingRes(scrapings: string[]): IFineScrapingR
     const pago: boolean = scrapings[21] === '(PAGO)' ? true : false;
 
     return {
-        descricao,
         placa,
+        descricao,
         situacao,
         dataHora,
         gravidade,

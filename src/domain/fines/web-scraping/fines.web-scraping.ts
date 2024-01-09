@@ -1,74 +1,77 @@
 import puppeteer from 'puppeteer';
-import { IFineScrapingReq } from '../interfaces';
+import { IFineScrapingRes } from '../interfaces';
 import { mapTransfomerWebScrapingRes } from '../transformers';
 
 export class FinesWebScraping {
-    async execute(): Promise<IFineScrapingReq[]> {
+    async execute(): Promise<IFineScrapingRes[]> {
         const browser = await puppeteer.launch({
             executablePath: '/usr/bin/google-chrome-stable',
             headless: 'new',
         });
-        const page = await browser.newPage();
 
-        await page.goto(process.env.GOV_URL);
+        try {
+            const page = await browser.newPage();
 
-        await page.type('#username', process.env.GOV_USERNAME);
-        await page.type('#password', process.env.GOV_PASSWORD);
+            await page.goto(process.env.GOV_URL);
 
-        const buttonLogin: any = await page.$x('//*[@id="app"]/div[3]/div/div/form[2]/div[4]/button');
+            await page.type('#username', process.env.GOV_USERNAME);
+            await page.type('#password', process.env.GOV_PASSWORD);
 
-        await buttonLogin[0].click();
+            const buttonLogin: any = await page.$x('//*[@id="app"]/div[3]/div/div/form[2]/div[4]/button');
 
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+            await buttonLogin[0].click();
 
-        while (true) {
-            const xpath = '/html/body/div/div[3]/div[3]/div[3]/div/button';
-            const button: any = await page.$x(xpath);
-
-            if (button.length === 0) {
-                console.error('Botão não encontrado com o XPath fornecido.');
-                break;
-            }
-
-            await button[0].click();
             await new Promise((resolve) => setTimeout(resolve, 2000));
-        }
 
-        const xpath = '//*[@id="app"]/div[3]/div[3]/div[1]/div';
-        const elements = await page.$x(xpath);
+            while (true) {
+                const xpath = '/html/body/div/div[3]/div[3]/div[3]/div/button';
+                const button: any = await page.$x(xpath);
 
-        if (elements.length === 0) {
-            console.error('Nenhum elemento encontrado com o XPath fornecido.');
-            await browser.close();
-            return;
-        }
+                if (button.length === 0) {
+                    break;
+                }
 
-        const outerDiv = elements[0];
-
-        const result = await outerDiv.$$eval('.row.no-gutters.row-grid.table-cell.mb-3', (divs) => {
-            const resultArray = [];
-
-            for (const div of divs) {
-                const spans = div.querySelectorAll('span');
-                const spanValues = Array.from(spans).map((span: any) => span.textContent);
-
-                resultArray.push(spanValues);
+                await button[0].click();
+                await new Promise((resolve) => setTimeout(resolve, 2000));
             }
 
-            return resultArray;
-        });
+            const xpath = '//*[@id="app"]/div[3]/div[3]/div[1]/div';
+            const elements = await page.$x(xpath);
 
-        await browser.close();
+            if (elements.length === 0) {
+                await browser.close();
+                return;
+            }
 
-        return this.organize(result);
+            const outerDiv = elements[0];
+
+            const result = await outerDiv.$$eval('.row.no-gutters.row-grid.table-cell.mb-3', (divs) => {
+                const resultArray = [];
+
+                for (const div of divs) {
+                    const spans = div.querySelectorAll('span');
+                    const spanValues = Array.from(spans).map((span: any) => span.textContent);
+
+                    resultArray.push(spanValues);
+                }
+
+                return resultArray;
+            });
+
+            await browser.close();
+
+            return this.organize(result);
+        } catch (err) {
+            await browser.close();
+        }
     }
 
     private organize(scrapings: string[][]): any {
-        const fines: IFineScrapingReq[] = [];
+        const fines: IFineScrapingRes[] = [];
 
         for (const scraping of scrapings) {
-            const a = mapTransfomerWebScrapingRes(scraping);
-            fines.push(a);
+            const value = mapTransfomerWebScrapingRes(scraping);
+            fines.push(value);
         }
 
         return fines;

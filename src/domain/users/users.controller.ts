@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards, Headers } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserCreateDTO } from './dtos/user-create.dto';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
+import { UserResettingPasswordDTO } from './dtos';
 
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
@@ -21,5 +22,15 @@ export class UsersController {
     @Get()
     findAll() {
         return this.usersService.findAll();
+    }
+
+    @Post('/first-access')
+    firstAcess(@Headers('Authorization') token: string, @Body('password') password: string) {
+        return this.firstAcess(token, password);
+    }
+
+    @Post(':id/resetting-password')
+    resettingPassword(@Param('id') id: string, @Body() { password }: UserResettingPasswordDTO) {
+        return this.usersService.resettingPassword({ id: +id, password });
     }
 }

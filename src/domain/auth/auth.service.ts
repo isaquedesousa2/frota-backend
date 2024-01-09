@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ICredentialsAuth } from './interfaces/credentials.interface';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
-import { IUserReq } from '../users/interfaces/user.interface';
+import { IUserReq, IUserResettingPassword } from '../users/interfaces/user.interface';
 import { mapTransformerSignIn } from './transformers/signIn.transformer';
 
 @Injectable()
@@ -32,6 +32,12 @@ export class AuthService {
         } catch (e) {
             throw new BadRequestException(e.message);
         }
+    }
+
+    async firstAccess(token: string, password: string) {
+        const { id } = await this.jwtService.decode(token);
+
+        return this.usersService.firstAccess({ id, password });
     }
 
     async validateToken(token: string) {

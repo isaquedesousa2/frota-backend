@@ -1,7 +1,7 @@
 import { TripsSismaEntity } from '../entities/trips-sisma.entity';
-import { IFineRes, IFineScrapingReq } from '../interfaces';
+import { IFineRes, IFineScrapingRes } from '../interfaces';
 
-export function mapTransformerFines(data: { plate: string; trip: TripsSismaEntity; fine: IFineScrapingReq }[]): IFineRes[] {
+export function mapTransformerFines(data: { plate: string; trip: TripsSismaEntity; fine: IFineScrapingRes }[]): IFineRes[] {
     const result: IFineRes[] = [];
 
     for (const dt of data) {

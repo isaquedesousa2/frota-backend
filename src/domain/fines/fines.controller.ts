@@ -3,7 +3,7 @@ import { FinesService } from './fines.service';
 import { JwtAuthGuard } from '../../guards';
 
 @UseGuards(JwtAuthGuard)
-@Controller('multas')
+@Controller('/api/v1/multas')
 export class FinesController {
     constructor(private readonly service: FinesService) {}
 

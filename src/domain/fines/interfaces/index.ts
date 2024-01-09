@@ -1,1 +1,1 @@
-export { IFine, IFineRes, IFineScrapingReq } from './fines.interface';
+export { IFine, IFineRes, IFineScrapingReq, IFineScrapingRes } from './fines.interface';

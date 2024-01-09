@@ -7,6 +7,8 @@ import { EmployeeSismaEntity } from '../domain/fines/entities/employee-sisma.ent
 import 'dotenv/config';
 import { RoutesSismaEntity } from '../domain/fines/entities/routes-sisma.entity';
 import { ClassEquipamentSismaEntity } from '../domain/fines/entities/class-equipament-sisma.entity';
+import { UsersPermissionsEntity } from '../domain/users/entities/users-permissions.entity';
+import { PermissionEntity } from '../domain/users/entities/permission.entity';
 
 @Global()
 @Module({
@@ -31,8 +33,8 @@ import { ClassEquipamentSismaEntity } from '../domain/fines/entities/class-equip
             password: process.env.SGM_PASSWORD,
             database: process.env.SGM_DATABASE,
             schema: process.env.SGM_SCHEMA,
-            entities: [UserEntity],
-            synchronize: true,
+            entities: [UserEntity, UsersPermissionsEntity, PermissionEntity],
+            synchronize: false,
         }),
     ],
 })
