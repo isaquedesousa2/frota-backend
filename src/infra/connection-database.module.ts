@@ -1,28 +1,18 @@
+import 'dotenv/config';
 import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from '../domain/users/entities/user.entity';
-import { EquipamentSismaEntity } from '../domain/fines/entities/equipament-sisma.entity';
-import { TripsSismaEntity } from '../domain/fines/entities/trips-sisma.entity';
-import { EmployeeSismaEntity } from '../domain/fines/entities/employee-sisma.entity';
-import 'dotenv/config';
-import { RoutesSismaEntity } from '../domain/fines/entities/routes-sisma.entity';
-import { ClassEquipamentSismaEntity } from '../domain/fines/entities/class-equipament-sisma.entity';
-import { UsersPermissionsEntity } from '../domain/users/entities/users-permissions.entity';
-import { PermissionEntity } from '../domain/users/entities/permission.entity';
+import { typeOrmDataSourceWinthor, typeOrmDataSourceWinthorOptions } from './typeorm/data-source';
+import { PermissionEntity, UserEntity, UsersPermissionsEntity } from '../domain/users/entities';
 
 @Global()
 @Module({
     imports: [
-        TypeOrmModule.forRoot({
-            type: 'oracle',
-            host: process.env.WINTHOR_HOST,
-            port: parseInt(process.env.WINTHOR_PORT),
-            username: process.env.WINTHOR_USERNAME,
-            password: process.env.WINTHOR_PASSWORD,
-            serviceName: process.env.WINTHOR_SERVICE,
-            schema: process.env.WINTHOR_SCHEMA,
-            entities: [EquipamentSismaEntity, TripsSismaEntity, EmployeeSismaEntity, RoutesSismaEntity, ClassEquipamentSismaEntity],
-            synchronize: false,
+        TypeOrmModule.forRootAsync({
+            useFactory: async () => {
+                await typeOrmDataSourceWinthor.initialize();
+
+                return typeOrmDataSourceWinthorOptions;
+            },
         }),
         TypeOrmModule.forRoot({
             name: process.env.SGM_NAME,

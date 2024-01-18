@@ -6,6 +6,7 @@ import { ConnectionDatabaseModule } from './infra/connection-database.module';
 import { AuthModule } from './domain/auth/auth.module';
 import { UsersModule } from './domain/users/users.module';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { SismaModule } from './domain/sisma/sisma.module';
 
 @Module({
     imports: [
@@ -16,6 +17,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
         AuthModule,
         UsersModule,
         FinesModule,
+        SismaModule,
     ],
     controllers: [],
     providers: [JwtAuthGuard],
