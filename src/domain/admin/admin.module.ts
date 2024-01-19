@@ -5,7 +5,7 @@ import { AdminService } from './admin.service';
 import { AdminController } from './admin.controller';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([UserEntity], process.env.SGM_NAME)],
+    imports: [TypeOrmModule.forFeature([UserEntity], process.env.FROTA_NAME)],
     providers: [AdminService],
     controllers: [AdminController],
 })

@@ -10,7 +10,7 @@ import { IUserReq, IUserResettingPassword } from './interfaces/user.interface';
 @Injectable()
 export class UsersService {
     constructor(
-        @InjectRepository(UserEntity, process.env.SGM_NAME)
+        @InjectRepository(UserEntity, process.env.FROTA_NAME)
         private readonly userRepository: Repository<UserEntity>,
     ) {}
 

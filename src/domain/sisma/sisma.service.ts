@@ -17,6 +17,7 @@ import {
 } from './entities';
 import { Repository } from 'typeorm';
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { ChecklistService } from '../checklist/checklist.service';
 
 @Injectable()
 export class SismaService implements ISismaService {
@@ -31,6 +32,7 @@ export class SismaService implements ISismaService {
         @InjectRepository(PumpHistoryEntity) private readonly pumpHistoryRepository: Repository<PumpHistoryEntity>,
         @InjectRepository(SupplyEntity) private readonly supplyRepository: Repository<SupplyEntity>,
         @InjectRepository(WorkplaceEntity) private readonly workplaceRepository: Repository<WorkplaceEntity>,
+        private readonly checklistService: ChecklistService,
     ) {}
 
     async createTravel(data: CreateTravelDTO) {
@@ -77,6 +79,13 @@ export class SismaService implements ISismaService {
 
                 return { coupunCode: +travel.NUMEDOCU };
             } catch (error) {
+                await this.checklistService.createForm(
+                    {
+                        description: error.message,
+                        status: false,
+                    },
+                    { ...data },
+                );
                 throw new BadRequestException(error);
             }
         });

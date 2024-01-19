@@ -16,6 +16,8 @@ import {
     UserSectorEntity,
     WorkplaceEntity,
 } from '../../domain/sisma/entities';
+import { PermissionEntity, UserEntity, UsersPermissionsEntity } from '../../domain/users/entities';
+import { ChecklistFormEntity, ChecklistSupplyEntity, ChecklistHistoryEntity, ChecklistProcessEntity } from '../../domain/checklist/entities';
 
 dotenv.config();
 
@@ -48,18 +50,27 @@ export const typeOrmDataSourceWinthorOptions: DataSourceOptions = {
     synchronize: false,
 };
 
-export const typeormDataSourceSGMOptions: DataSourceOptions = {
-    name: process.env.SGM_NAME,
-    type: process.env.SGM_TYPE as any,
-    host: process.env.SGM_HOST,
-    port: parseInt(process.env.SGM_PORT),
-    username: process.env.SGM_USERNAME,
-    password: process.env.SGM_PASSWORD,
-    database: process.env.SGM_DATABASE,
-    schema: process.env.SGM_SCHEMA,
-    migrations: [`${__dirname}/migrations/*.ts`],
+export const typeormDataSourceFROTAOptions: DataSourceOptions = {
+    name: process.env.FROTA_NAME,
+    type: process.env.FROTA_TYPE as any,
+    host: process.env.FROTA_HOST,
+    port: parseInt(process.env.FROTA_PORT),
+    username: process.env.FROTA_USERNAME,
+    password: process.env.FROTA_PASSWORD,
+    database: process.env.FROTA_DATABASE,
+    schema: process.env.FROTA_SCHEMA,
+    entities: [
+        UserEntity,
+        UsersPermissionsEntity,
+        PermissionEntity,
+        ChecklistFormEntity,
+        ChecklistSupplyEntity,
+        ChecklistProcessEntity,
+        ChecklistHistoryEntity,
+    ],
+    synchronize: false,
 };
 
-export const typeOrmDataSourceSGM = new DataSource(typeOrmDataSourceWinthorOptions);
+export const typeOrmDataSourceFROTA = new DataSource(typeormDataSourceFROTAOptions);
 
 export const typeOrmDataSourceWinthor = new DataSource(typeOrmDataSourceWinthorOptions);

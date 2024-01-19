@@ -2,7 +2,7 @@ import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { PermissionEntity } from './permission.entity';
 
-@Entity('users_permissions')
+@Entity('USERS_PERMISSIONS')
 export class UsersPermissionsEntity {
     @PrimaryGeneratedColumn('increment')
     id: number;

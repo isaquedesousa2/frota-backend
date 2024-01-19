@@ -12,6 +12,7 @@ import { WorkplaceEntity } from './entities/workplace.entity';
 import { SismaService } from './sisma.service';
 import { SismaController } from './sisma.controller';
 import { EmployeeEntity } from './entities/employee.entity';
+import { ChecklistModule } from '../checklist/checklist.module';
 
 @Module({
     imports: [
@@ -27,6 +28,7 @@ import { EmployeeEntity } from './entities/employee.entity';
             WorkplaceEntity,
             EmployeeEntity,
         ]),
+        ChecklistModule,
     ],
     providers: [SismaService],
     controllers: [SismaController],

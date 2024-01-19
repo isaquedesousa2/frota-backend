@@ -5,8 +5,8 @@ import { MaintenanceEntity, MaintenancePointEntity, WorkplaceEntity } from '../.
 import { Repository } from 'typeorm';
 
 export const createSupply = async (repositories: ICreateSupplyRepositories, data: ICreateSupply) => {
-    const gasStationCode = await getGasStationCode(repositories.maintenancePoint, data.supply.gasStationName);
-    const workplaceCode = await getWorkplaceCode(repositories.workplace, data.supply.workplaceName);
+    const gasStationCode = await getGasStationCode(repositories.maintenancePoint, data.supply.gasStation);
+    const workplaceCode = await getWorkplaceCode(repositories.workplace, data.supply.workplace);
     const maintenanceCode = await getMaintenanceCode(repositories.maintenance);
     const supplyCoupunCode = await getCoupunCode(repositories.maintenance);
 

@@ -2,19 +2,19 @@ import { IsBoolean, IsDateString, IsNumber, IsString } from 'class-validator';
 
 export class CreateSupplyDTO {
     @IsNumber()
-    noteNumber: number;
+    noteCode: number;
 
     @IsString()
-    gasStationName: string;
+    gasStation: string;
 
     @IsDateString()
     date: Date;
 
     @IsNumber()
-    odometer: number;
+    km: number;
 
     @IsString()
-    workplaceName: string;
+    workplace: string;
 
     @IsNumber()
     liters: number;

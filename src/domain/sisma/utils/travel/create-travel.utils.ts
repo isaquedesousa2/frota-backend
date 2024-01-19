@@ -8,9 +8,9 @@ import { In, IsNull, Repository } from 'typeorm';
 export const createTravel = async (repositories: ICreateTravelRepositories, data: CreateTravelDTO) => {
     const coupunCode = await getMaxCupomCode(repositories.travel);
     const { equipamentCode, materialCode } = await getEquipamentCode(repositories.equipament, data.vehicleCode);
-    const routeCode = await getRouteCode(repositories.route, data.nameRoute);
-    const driverCode = await getdriverCode(repositories.employee, data.driverName);
-    const deliveryManCode = await getDeliveryManCode(repositories.employee, data.deliveryManName);
+    const routeCode = await getRouteCode(repositories.route, data.route);
+    const driverCode = await getdriverCode(repositories.employee, data.driver);
+    const deliveryManCode = await getDeliveryManCode(repositories.employee, data.deliveryMan);
 
     if (!coupunCode) {
         throw new InternalServerErrorException('Falha ao buscar o código da viagem.');

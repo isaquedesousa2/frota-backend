@@ -2,7 +2,7 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { UsersPermissionsEntity } from './users-permissions.entity';
 
-@Entity('users')
+@Entity('USERS')
 export class UserEntity {
     @PrimaryGeneratedColumn('increment')
     id: number;

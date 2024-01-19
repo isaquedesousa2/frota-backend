@@ -1,19 +1,20 @@
 import { Type } from 'class-transformer';
 import { IsDateString, IsNumber, IsString } from 'class-validator';
 import { CreateSupplyDTO } from '.';
+import { CreateChecklistFormDTO } from '../../../checklist/dto';
 
-export class CreateTravelDTO {
+export class CreateTravelDTO extends CreateChecklistFormDTO {
     @IsString()
-    nameRoute: string;
+    route: string;
 
     @IsNumber()
     vehicleCode: number;
 
     @IsString()
-    driverName: string;
+    driver: string;
 
     @IsString()
-    deliveryManName: string;
+    deliveryMan: string;
 
     @IsDateString()
     startDate: Date;
@@ -47,7 +48,4 @@ export class CreateTravelDTO {
 
     @IsNumber()
     cargoWeight: number;
-
-    @Type(() => CreateSupplyDTO)
-    supplies: CreateSupplyDTO[];
 }

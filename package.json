@@ -18,8 +18,8 @@
         "test:cov": "jest --coverage",
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
         "test:e2e": "jest --config ./test/jest-e2e.json",
-        "typeorm:ts": "npx typeorm-ts-node-commonjs --dataSource src/infra/typeorm/data-source.ts",
-        "migrate:create": "npm run typeorm:ts migration:create src/infra/typeorm/migrations/migrate",
+        "typeorm:ts": "npx typeorm-ts-node-commonjs --dataSource src/infra/typeorm/frota-datasource.config.ts",
+        "migrate:create": "npx typeorm-ts-node-commonjs migration:create src/infra/typeorm/migrations/migrate",
         "migrate:up": "npm run typeorm:ts migration:run",
         "migrate:revert": "npm run typeorm:ts migration:revert"
     },

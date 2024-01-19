@@ -7,6 +7,7 @@ import { AuthModule } from './domain/auth/auth.module';
 import { UsersModule } from './domain/users/users.module';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { SismaModule } from './domain/sisma/sisma.module';
+import { ChecklistModule } from './domain/checklist/checklist.module';
 
 @Module({
     imports: [
@@ -18,8 +19,8 @@ import { SismaModule } from './domain/sisma/sisma.module';
         UsersModule,
         FinesModule,
         SismaModule,
+        ChecklistModule,
     ],
-    controllers: [],
     providers: [JwtAuthGuard],
 })
 export class AppModule {}
