@@ -24,7 +24,7 @@ export function mapCreateMaintenace(maintenance: IMapCreateSupplyMaintenance): M
         DATAHORAFINA: maintenance.supply.date,
         NUMEDOCU: maintenance.supplyCoupunCode,
         TOTAL_NOTA: 0,
-        HODOMETRO: maintenance.supply.km,
+        HODOMETRO: maintenance.supply.odometer,
         HORIMETRO: maintenance.travel.horimeter,
         CODIOPER: 1,
         CODIPOMA: maintenance.gasStationCode,

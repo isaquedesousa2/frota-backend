@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn } from 'typeorm';
 import { ChecklistProcessEntity } from './checklist-process.entity';
 import { ChecklistFormEntity } from './checklist-form.entity';
 
@@ -24,4 +24,7 @@ export class ChecklistHistoryEntity {
 
     @Column({ type: 'varchar', length: 255 })
     description: string;
+
+    @CreateDateColumn()
+    createdAt: Date;
 }

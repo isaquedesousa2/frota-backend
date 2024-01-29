@@ -12,6 +12,6 @@ export interface IMapCreateTravel {
     quantityDeliveries: number;
     initialOdometer: number;
     finalOdometer: number;
-    valueSpentWithDiems: number;
+    totalDailyExpenses: number;
     cargoWeight: number;
 }

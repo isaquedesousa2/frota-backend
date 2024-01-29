@@ -5,7 +5,7 @@ export interface ICreateChecklistSupplyReq {
     date: Date;
     liters: number;
     value: number;
-    km: number;
+    odometer: number;
     gasStation: string;
     workplace: string;
     noteCode: number;
@@ -18,7 +18,7 @@ export interface ICreateChecklistSupplyRes {
     date: Date;
     liters: number;
     value: number;
-    km: number;
+    odometer: number;
     gasStation: string;
     workplace: string;
     noteCode: number;

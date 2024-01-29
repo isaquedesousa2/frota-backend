@@ -1,5 +1,5 @@
-import { CreateTravelDTO } from '../dto/travel';
+import { CreateChecklistFormDTO } from '../../checklist/dto';
 
 export interface ISismaService {
-    createTravel(data: CreateTravelDTO): void;
+    createTravel(data: CreateChecklistFormDTO): void;
 }

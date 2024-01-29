@@ -19,7 +19,7 @@ export const mapCreateTravel = (travel: IMapCreateTravel): TravelEntity => {
         ENTREGA: travel.quantityDeliveries,
         KMPARTIDA: travel.initialOdometer,
         KMCHEGADA: travel.finalOdometer,
-        CUSTOMOTORISTA: travel.valueSpentWithDiems,
+        CUSTOMOTORISTA: travel.totalDailyExpenses,
         HORA_DESP: 0,
         MOTIVO_HORA_DESP: null,
         PESOCARGA: travel.cargoWeight,

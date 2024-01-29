@@ -37,7 +37,7 @@ export class Migrate1705674877828 implements MigrationInterface {
                         scale: 2,
                     },
                     {
-                        name: 'km',
+                        name: 'odometer',
                         type: 'decimal',
                         scale: 2,
                     },

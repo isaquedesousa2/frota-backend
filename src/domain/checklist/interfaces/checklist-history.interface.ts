@@ -1,6 +1,6 @@
 export interface ICreateCheckListHistoryReq {
     status: boolean;
-    description: string;
+    description?: string;
 }
 
 export interface ICreateCheckListHistoryRes extends ICreateCheckListHistoryReq {

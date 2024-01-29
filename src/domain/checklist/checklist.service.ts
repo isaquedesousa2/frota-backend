@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { ChecklistProcessEntity } from './entities';
-import { DataSource, Repository } from 'typeorm';
+import { ChecklistFormEntity, ChecklistHistoryEntity, ChecklistProcessEntity } from './entities';
+import { DataSource, Raw, Repository } from 'typeorm';
 import { ICreateCheckListHistoryReq, ICreateChecklistProcessReq } from './interfaces';
 import { ECheckListProcessStatus } from './enums';
 import { IPaginationDTO } from '../../shared/pagination/paginate.interface';
@@ -14,12 +14,18 @@ import {
     mapShowChecklistProcess,
 } from './transformers';
 import { CreateChecklistFormDTO } from './dto';
+import { IChecklistFilters } from './interfaces/checklist-filters.interface';
+import { format, subDays } from 'date-fns';
 
 @Injectable()
 export class ChecklistService {
     constructor(
         @InjectRepository(ChecklistProcessEntity, process.env.FROTA_NAME)
         private readonly checklistProcessRepository: Repository<ChecklistProcessEntity>,
+        @InjectRepository(ChecklistFormEntity, process.env.FROTA_NAME)
+        private readonly checklistFormRepository: Repository<ChecklistFormEntity>,
+        @InjectRepository(ChecklistHistoryEntity, process.env.FROTA_NAME)
+        private readonly checklistHistoricRepository: Repository<ChecklistHistoryEntity>,
         @InjectDataSource(process.env.FROTA_NAME) private readonly dataSource: DataSource,
     ) {}
 
@@ -53,7 +59,7 @@ export class ChecklistService {
                     { id: process.id },
                     {
                         chargingCode: formData.chargingCode,
-                        status: ECheckListProcessStatus.FINISHED,
+                        status: ECheckListProcessStatus.OPEN,
                         endDate: new Date(),
                     },
                 );
@@ -61,10 +67,13 @@ export class ChecklistService {
         });
     }
 
-    async findAll({ page, perPage }: IPaginationDTO) {
+    async findAll({ period }: IChecklistFilters, { page, perPage }: IPaginationDTO) {
         const [process, count] = await this.checklistProcessRepository.findAndCount({
             ...getPaginationParams(page, perPage),
             relations: ['forms', 'forms.supplies', 'histories'],
+            order: {
+                createdAt: 'DESC',
+            },
         });
 
         const paginatedResponse = paginateResponse(process, count, page, perPage);
@@ -73,5 +82,38 @@ export class ChecklistService {
             ...paginatedResponse,
             result: process.map(mapShowChecklistProcess),
         };
+    }
+
+    async findAllHistoric({ period }: IChecklistFilters, { page, perPage }: IPaginationDTO) {
+        let startDate: Date;
+        const endDate = new Date();
+
+        if (period) {
+            startDate = subDays(endDate, period);
+        }
+
+        const [historic, count] = await this.checklistHistoricRepository.findAndCount({
+            ...getPaginationParams(page, perPage),
+            relations: ['process'],
+            order: {
+                createdAt: 'DESC',
+            },
+            where: {
+                createdAt: period && Raw((alias) => `${alias} >= :startDate  and ${alias} <= :endDate`, { startDate, endDate }),
+            },
+        });
+
+        const paginatedResponse = paginateResponse(historic, count, page, perPage);
+
+        return {
+            ...paginatedResponse,
+            result: historic,
+        };
+    }
+
+    async showForm(id: number) {
+        const response = await this.checklistFormRepository.findOne({ where: { id }, relations: ['supplies'] });
+
+        return response;
     }
 }

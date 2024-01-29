@@ -25,8 +25,8 @@ export class ChecklistSupplyEntity {
     @Column({ type: 'decimal', precision: 10, scale: 2 })
     value: number;
 
-    @Column({ type: 'decimal', precision: 10, scale: 2 })
-    km: number;
+    @Column({ type: 'int' })
+    odometer: number;
 
     @Column({ type: 'varchar', length: 100 })
     gasStation: string;

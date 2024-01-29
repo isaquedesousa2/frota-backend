@@ -1,6 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { ISismaService } from './interfaces';
-import { CreateTravelDTO } from './dto/travel';
 import { typeOrmDataSourceWinthor } from '../../infra/typeorm/data-source';
 import { createSupply, createTravel } from './utils/travel';
 import {
@@ -18,6 +17,8 @@ import {
 import { Repository } from 'typeorm';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ChecklistService } from '../checklist/checklist.service';
+import { CreateChecklistFormDTO } from '../checklist/dto';
+import { mapTravelData } from './transformers';
 
 @Injectable()
 export class SismaService implements ISismaService {
@@ -35,9 +36,11 @@ export class SismaService implements ISismaService {
         private readonly checklistService: ChecklistService,
     ) {}
 
-    async createTravel(data: CreateTravelDTO) {
+    async createTravel(data: CreateChecklistFormDTO) {
         return await typeOrmDataSourceWinthor.transaction(async (transaction) => {
             try {
+                const dataTravel = mapTravelData(data);
+
                 const travel = await createTravel(
                     {
                         travel: this.travelRepository,
@@ -46,12 +49,12 @@ export class SismaService implements ISismaService {
                         employee: this.employeeRepository,
                         equipament: this.equipamentRepository,
                     },
-                    data,
+                    dataTravel,
                 );
 
                 await transaction.save(TravelEntity, travel);
 
-                for (const item of data.supplies) {
+                for (const item of dataTravel.supplies) {
                     const { maintenance, maintenanceItem, pumpHistory, supply } = await createSupply(
                         {
                             maintenance: this.maintenaceRepository,
@@ -67,7 +70,7 @@ export class SismaService implements ISismaService {
                             equipamentCode: travel.IDEQUI,
                             materialCode: travel.materialCode,
                             supply: item,
-                            travel: data,
+                            travel: dataTravel,
                         },
                     );
 
@@ -76,6 +79,8 @@ export class SismaService implements ISismaService {
                     await transaction.save(PumpHistoryEntity, pumpHistory);
                     await transaction.save(SupplyEntity, supply);
                 }
+
+                await this.checklistService.createForm({ status: true }, { ...data });
 
                 return { coupunCode: +travel.NUMEDOCU };
             } catch (error) {

@@ -1,27 +1,3 @@
-import { IsBoolean, IsDateString, IsNumber, IsString } from 'class-validator';
+import { CreateChecklistSupplyDTO } from '../../../checklist/dto';
 
-export class CreateSupplyDTO {
-    @IsNumber()
-    noteCode: number;
-
-    @IsString()
-    gasStation: string;
-
-    @IsDateString()
-    date: Date;
-
-    @IsNumber()
-    km: number;
-
-    @IsString()
-    workplace: string;
-
-    @IsNumber()
-    liters: number;
-
-    @IsNumber()
-    value: number;
-
-    @IsBoolean()
-    completedTank: boolean;
-}
+export class CreateSupplyDTO extends CreateChecklistSupplyDTO {}

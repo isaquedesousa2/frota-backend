@@ -1,9 +1,8 @@
+import { IsArray, IsDateString, IsNumber, IsString, ValidateNested } from 'class-validator';
+import { CreateSupplyDTO } from './create-supply.dto';
 import { Type } from 'class-transformer';
-import { IsDateString, IsNumber, IsString } from 'class-validator';
-import { CreateSupplyDTO } from '.';
-import { CreateChecklistFormDTO } from '../../../checklist/dto';
 
-export class CreateTravelDTO extends CreateChecklistFormDTO {
+export class CreateTravelDTO {
     @IsString()
     route: string;
 
@@ -41,11 +40,16 @@ export class CreateTravelDTO extends CreateChecklistFormDTO {
     horimeter: number;
 
     @IsNumber()
-    valueSpentWithDiems: number;
+    totalDailyExpenses: number;
 
     @IsNumber()
     cargoValue: number;
 
     @IsNumber()
     cargoWeight: number;
+
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => CreateSupplyDTO)
+    supplies?: CreateSupplyDTO[];
 }

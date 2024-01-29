@@ -15,7 +15,7 @@ export class CreateChecklistSupplyDTO {
     value: number;
 
     @IsDecimal()
-    km: number;
+    odometer: number;
 
     @IsString()
     gasStation: string;
