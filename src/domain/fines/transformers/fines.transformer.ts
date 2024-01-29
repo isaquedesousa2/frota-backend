@@ -8,9 +8,9 @@ export function mapTransformerFines(data: { plate: string; trip: TripsSismaEntit
         if (!result.some((res) => res.plate === dt.plate)) {
             result.push({
                 plate: dt.plate,
-                number: dt.trip.IDEQUI,
-                reindeer: dt.trip.equipament.RENAVAM2,
-                class: dt.trip.equipament.class.DESCRICAO,
+                number: dt.trip ? dt.trip.IDEQUI : null,
+                reindeer: dt.trip ? dt.trip.equipament.RENAVAM2 : null,
+                class: dt.trip ? dt.trip.equipament.class.DESCRICAO : null,
                 fines: [],
             });
         }
@@ -18,16 +18,17 @@ export function mapTransformerFines(data: { plate: string; trip: TripsSismaEntit
         for (const res of result) {
             if (res.plate === dt.plate) {
                 res.fines.push({
-                    employee: dt.trip.employee.NOMEFUNC,
-                    employeeNumber: dt.trip.employee.CODIFUNC,
-                    coupunNumber: dt.trip.NUMEDOCU,
+                    infractionNotice: dt.fine.autoInfracao,
+                    employee: dt.trip ? dt.trip.employee.NOMEFUNC : null,
+                    employeeNumber: dt.trip ? dt.trip.employee.CODIFUNC : null,
+                    coupunNumber: dt.trip ? dt.trip.NUMEDOCU : null,
                     date: dt.fine.dataHora,
                     local: dt.fine.local,
                     country: dt.fine.municipio,
                     description: dt.fine.descricao,
                     gravity: dt.fine.gravidade,
                     situation: dt.fine.situacao,
-                    route: dt.trip.route.DESCRRESUM,
+                    route: dt.trip ? dt.trip.route.DESCRRESUM : null,
                     value: dt.fine.valor,
                     paid: dt.fine.pago,
                 });

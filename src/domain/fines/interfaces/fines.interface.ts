@@ -1,4 +1,5 @@
 export interface IFineScrapingRes {
+    autoInfracao: string;
     descricao: string;
     placa: string;
     situacao: string;
@@ -24,6 +25,7 @@ export interface IFineRes {
 }
 
 export interface IFine {
+    infractionNotice: string;
     coupunNumber: number;
     employee: string;
     employeeNumber: number;
